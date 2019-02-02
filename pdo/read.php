@@ -25,6 +25,7 @@ $data = $stmt->fetchAll();
             <td><?php echo $row['id']; ?></td>
             <td><?php echo $row['username']; ?></td>
             <td><?php echo $row['email']; ?></td>
+            <td><?php echo $row['password']; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
