@@ -20,6 +20,7 @@ if (! isset($_SESSION['id'], $_SESSION['email'])) {
 <div class="container-fluid">
     <div class="alert alert-info">
         You have been logged in as, <?php echo $_SESSION['email']; ?>
+        (<?php echo $_SESSION['role']; ?>)
     </div>
 
     <div>
@@ -33,6 +34,13 @@ if (! isset($_SESSION['id'], $_SESSION['email'])) {
                 Change Password
             </a>
         </p>
+        <?php if ($_SESSION['role'] === 'admin'): ?>
+            <p>
+                <a href="users.php">
+                    Users
+                </a>
+            </p>
+        <?php endif; ?>
     </div>
 
     <a href="logout.php" class="btn btn-danger">Logout</a>

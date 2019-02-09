@@ -28,6 +28,7 @@ $user = $stmt->fetch();
 <div class="container-fluid">
     <div class="alert alert-info">
         You have been logged in as, <?php echo $_SESSION['email']; ?>
+        (<?php echo $_SESSION['role']; ?>)
     </div>
 
     <div>

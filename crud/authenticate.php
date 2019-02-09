@@ -5,7 +5,7 @@ if (isset($_POST['login'])) {
     $email = strtolower(trim($_POST['email']));
     $password = trim($_POST['password']);
 
-    $query = 'SELECT id,password,active FROM users WHERE email=:email';
+    $query = 'SELECT id,password,active,role FROM users WHERE email=:email';
     $stmt = $db->prepare($query);
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -22,6 +22,7 @@ if (isset($_POST['login'])) {
 
             $_SESSION['id'] = $user['id'];
             $_SESSION['email'] = $email;
+            $_SESSION['role'] = $user['role'];
 
             header('Location: dashboard.php');
             exit();
