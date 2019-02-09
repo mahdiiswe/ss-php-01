@@ -20,7 +20,7 @@ $message = $_SESSION['message'] ?? null;
 <body>
 <div class="container-fluid">
 
-    <form action="register.php" method="post">
+    <form action="forgetemail.php" method="post">
         <?php if (isset($message)): ?>
             <div class="alert alert-info">
                 <?php echo $message; ?>
@@ -33,23 +33,15 @@ $message = $_SESSION['message'] ?? null;
             <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email" required>
         </div>
 
-        <div class="form-group">
-            <label for="exampleInputUsername1">Username</label>
-            <input type="text" class="form-control" id="exampleInputUsername1" name="username" placeholder="Enter email" required>
-        </div>
+        <button type="submit" name="forget" class="btn btn-primary">Reset Password</button>
 
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
-        </div>
-
-        <button type="submit" name="register" class="btn btn-primary">Register</button>
         <p></p>
+
+        <p>
         <a href="login.php" class="btn btn-info">
             Login
         </a>
-
-        <a href="forget.php">Forgot Password?</a>
+        </p>
     </form>
 </div>
 </body>

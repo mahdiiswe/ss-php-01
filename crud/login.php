@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'config.php';
 
 if (isset($_SESSION['id'], $_SESSION['email'])) {
     header('Location: dashboard.php');
@@ -39,6 +39,13 @@ $message = $_SESSION['message'] ?? null;
         </div>
 
         <button type="submit" name="login" class="btn btn-primary">Login</button>
+
+        <p></p>
+        <a href="index.php" class="btn btn-info">
+            Register
+        </a>
+
+        <a href="forget.php">Forgot Password?</a>
     </form>
 </div>
 </body>

@@ -6,6 +6,20 @@ if (isset($_SESSION['id'], $_SESSION['email'])) {
     exit();
 }
 
+$token = trim($_GET['token']);
+$query = 'SELECT email FROM password_resets WHERE token=:token';
+$stmt = $db->prepare($query);
+$stmt->bindParam(':token', $token);
+$stmt->execute();
+
+$user = $stmt->fetch();
+
+if ($user === false) {
+    $_SESSION['message'] = 'Invalid token.';
+    header('Location: login.php');
+    exit();
+}
+
 $message = $_SESSION['message'] ?? null;
 ?>
 <!doctype html>
@@ -20,7 +34,7 @@ $message = $_SESSION['message'] ?? null;
 <body>
 <div class="container-fluid">
 
-    <form action="register.php" method="post">
+    <form action="resetpassword.php" method="post">
         <?php if (isset($message)): ?>
             <div class="alert alert-info">
                 <?php echo $message; ?>
@@ -30,12 +44,7 @@ $message = $_SESSION['message'] ?? null;
 
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email" required>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputUsername1">Username</label>
-            <input type="text" class="form-control" id="exampleInputUsername1" name="username" placeholder="Enter email" required>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="<?php echo $user['email']; ?>" required readonly>
         </div>
 
         <div class="form-group">
@@ -43,13 +52,7 @@ $message = $_SESSION['message'] ?? null;
             <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
         </div>
 
-        <button type="submit" name="register" class="btn btn-primary">Register</button>
-        <p></p>
-        <a href="login.php" class="btn btn-info">
-            Login
-        </a>
-
-        <a href="forget.php">Forgot Password?</a>
+        <button type="submit" name="reset" class="btn btn-primary">Set Password</button>
     </form>
 </div>
 </body>

@@ -1,20 +1,20 @@
 <?php
 require_once 'config.php';
-session_start();
 
 if (isset($_POST['register'])) {
     $username = strtolower(trim($_POST['username']));
     $email = strtolower(trim($_POST['email']));
     $password = trim($_POST['password']);
     $password = password_hash($password, PASSWORD_BCRYPT);
+    $activation_token = sha1(uniqid($username.$email.time(), true));
 
-    require_once '../pdo/connection.php';
-
-    $query = 'INSERT INTO users (username, password, email) VALUES (:username, :password, :email)';
+    $query = 'INSERT INTO users (username, password, email, activation_token, created_at) VALUES (:username, :password, :email, :activation_token, :created_at)';
     $stmt = $db->prepare($query);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':password', $password);
     $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':activation_token', $activation_token);
+    $stmt->bindValue(':created_at', date('Y-m-d H:i:s'));
     $response = $stmt->execute();
 
     if ($response === true) {
@@ -33,11 +33,17 @@ if (isset($_POST['register'])) {
 
             $mail->setFrom('hello@ss-php.sumon', 'SS PHP 01');
             $mail->addAddress($email, $username);
+            $mail->isHTML(true);
 
-            $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Account created as '.$username;
             $mail->Body = 'Dear '.$email.',<br/>';
-            $mail->Body .= 'Your account created successfully!';
+            $mail->Body .= 'Your account created successfully!<br/>';
+            $mail->Body .= 'Please click the following link to activate your account: <br/>';
+            $mail->Body .= '
+            <a href="http://ss-php.sumon/crud/activate.php?token='.$activation_token.'">
+            http://ss-php.sumon/crud/activate.php?token='.$activation_token.'
+            </a>';
+            $mail->Body .= '<br/>';
             $mail->send();
         } catch (Exception $e) {
         }
