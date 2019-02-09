@@ -8,12 +8,6 @@ if (! isset($_SESSION['id'], $_SESSION['email'])) {
 }
 
 $message = $_SESSION['message'] ?? null;
-$id = (int) $_SESSION['id'];
-$query = 'SELECT profile_photo, address FROM users WHERE id=:id';
-$stmt = $db->prepare($query);
-$stmt->bindParam(':id', $id);
-$stmt->execute();
-$user = $stmt->fetch();
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,21 +32,23 @@ $user = $stmt->fetch();
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
-        <form action="update_profile.php" enctype="multipart/form-data" method="post">
+        <form action="update_password.php" method="post">
             <div class="form-group">
-                <label for="profile_photo">Profile Photo: </label>
-                <input type="file" name="profile_photo" class="form-control">
-                <?php if (! empty($user['profile_photo'])): ?>
-                    <img src="uploads/pp/<?php echo $user['profile_photo']; ?>" alt="Profile Photo" width="150">
-                <?php endif; ?>
+                <label for="current_password">Current Password</label>
+                <input id="current_password" type="password" name="current_password" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="address">Address: </label>
-                <textarea class="form-control" name="address" id="address"><?php echo $user['address']; ?></textarea>
+                <label for="new_password">New Password</label>
+                <input id="new_password" type="password" name="new_password" class="form-control" required>
             </div>
 
-            <button type="submit" name="update" class="btn btn-success">Update</button>
+            <div class="form-group">
+                <label for="confirm_new_password">Confirm New Password</label>
+                <input id="confirm_new_password" type="password" name="confirm_new_password" class="form-control" required>
+            </div>
+
+            <button type="submit" name="change" class="btn btn-success">Change Password</button>
         </form>
     </div>
 
@@ -61,3 +57,4 @@ $user = $stmt->fetch();
 </div>
 </body>
 </html>
+

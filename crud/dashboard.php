@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'config.php';
 
 if (! isset($_SESSION['id'], $_SESSION['email'])) {
     $_SESSION['message'] = 'You need to login to access this page.';
@@ -26,6 +26,11 @@ if (! isset($_SESSION['id'], $_SESSION['email'])) {
         <p>
             <a href="edit_profile.php">
                 Edit Profile
+            </a>
+        </p>
+        <p>
+            <a href="change_password.php">
+                Change Password
             </a>
         </p>
     </div>
