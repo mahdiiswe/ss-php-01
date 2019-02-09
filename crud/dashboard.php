@@ -22,6 +22,14 @@ if (! isset($_SESSION['id'], $_SESSION['email'])) {
         You have been logged in as, <?php echo $_SESSION['email']; ?>
     </div>
 
+    <div>
+        <p>
+            <a href="edit_profile.php">
+                Edit Profile
+            </a>
+        </p>
+    </div>
+
     <a href="logout.php" class="btn btn-danger">Logout</a>
 </div>
 </body>
